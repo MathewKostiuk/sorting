@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"io"
 	"sort"
+	"strconv"
 	"time"
 )
 
@@ -51,10 +52,10 @@ var tracks = []*Track{
 
 var sortkeys = []*sortkey{
 	{"Title", 0},
-	{"Artist", 0},
-	{"Album", 0},
-	{"Year", 0},
-	{"Length", 0},
+	{"Artist", 1},
+	{"Album", 2},
+	{"Year", 3},
+	{"Length", 4},
 }
 
 func length(s string) time.Duration {
@@ -70,6 +71,19 @@ func WriteTracks(tt TrackTable, wr io.Writer, tmpl *template.Template) {
 	err := tmpl.ExecuteTemplate(wr, "index.html", tt)
 	if err != nil {
 		panic(err)
+	}
+}
+
+// Makes the most recently clicked table header the primary sortkey
+func UpdateSortKeys(n string) {
+	for i, key := range sortkeys {
+		if key.name == n {
+			firstHalf := sortkeys[0:i]
+			key.value = 0
+			for _, fk := range firstHalf {
+				fk.value++
+			}
+		}
 	}
 }
 
@@ -103,4 +117,8 @@ func SortTracks() {
 		}
 		return false
 	}})
+}
+
+func (s *sortkey) String() string {
+	return "sortkey name=" + s.name + " value=" + strconv.Itoa(s.value)
 }
