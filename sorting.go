@@ -43,13 +43,6 @@ func (x customSort) Len() int           { return len(x.t) }
 func (x customSort) Less(i, j int) bool { return x.less(x.t[i], x.t[j]) }
 func (x customSort) Swap(i, j int)      { x.t[i], x.t[j] = x.t[j], x.t[i] }
 
-var tracks = []*Track{
-	{"Go", "Delilah", "From the Roots up", 2012, length("3m38s")},
-	{"Go", "Moby", "Moby", 1992, length("3m37s")},
-	{"Go Ahead", "Alicia Keys", "As I Am", 2007, length("4m36s")},
-	{"Ready 2 Go", "Martin Solveig", "Smash", 2011, length("4m24s")},
-}
-
 var sortkeys = []*sortkey{
 	{"Title", 0},
 	{"Artist", 1},
@@ -88,7 +81,7 @@ func UpdateSortKeys(n string) {
 }
 
 // SortTracks sorts the tracks according to the order of the sortkeys
-func SortTracks() {
+func SortTracks(tracks []*Track) {
 	sort.Sort(bySortkey(sortkeys))
 	sort.Sort(customSort{tracks, func(x, y *Track) bool {
 		for _, key := range sortkeys {
