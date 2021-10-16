@@ -65,7 +65,7 @@ func length(s string) time.Duration {
 }
 
 // WriteTracks creates an HTML table for a TrackTable
-func WriteTracks(tt TrackTable, wr io.Writer, tmpl *template) {
+func WriteTracks(tt TrackTable, wr io.Writer, tmpl *template.Template) {
 	err := tmpl.ExecuteTemplate(wr, "index.html", tt)
 	if err != nil {
 		panic(err)
