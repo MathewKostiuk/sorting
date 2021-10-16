@@ -1,48 +1,28 @@
 package sorting
 
 import (
-	"fmt"
+	"html/template"
 	"os"
-	"sort"
 	"testing"
 )
 
 func TestWriteTracks(t *testing.T) {
 	var tt TrackTable
 	tt.Tracks = tracks
-	WriteTracks(tt, os.Stdout)
-	sort.Sort(bySortkey(sortkeys))
-	for _, key := range sortkeys {
-		fmt.Println(key)
+	tmpl, err := template.ParseFiles("index.html")
+	if err != nil {
+		panic(err)
+	}
+	WriteTracks(tt, os.Stdout, tmpl)
+}
+
+func TestSortTracks(t *testing.T) {
+	var tt TrackTable
+	tt.Tracks = tracks
+	tmpl, err := template.ParseFiles("index.html")
+	if err != nil {
+		panic(err)
 	}
 
-	sort.Sort(customSort{tracks, func(x, y *Track) bool {
-		for _, key := range sortkeys {
-			switch key.name {
-			case "Title":
-				if x.Title != y.Title {
-					return x.Title < y.Title
-				}
-			case "Artist":
-				if x.Artist != y.Artist {
-					return x.Artist < y.Artist
-				}
-			case "Album":
-				if x.Album != y.Album {
-					return x.Album < y.Album
-				}
-			case "Year":
-				if x.Year != y.Year {
-					return x.Year < y.Year
-				}
-			case "Length":
-				if x.Length != y.Length {
-					return x.Length < y.Length
-				}
-			}
-		}
-		return false
-	}})
-
-	WriteTracks(tt, os.Stdout)
+	WriteTracks(tt, os.Stdout, tmpl)
 }
