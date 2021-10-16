@@ -2,7 +2,7 @@ package sorting
 
 import (
 	"html/template"
-	"os"
+	"io"
 	"time"
 )
 
@@ -49,11 +49,11 @@ var tracks = []*Track{
 }
 
 var sortkeys = []*sortkey{
-	{"Title", 3},
-	{"Artist", 1},
-	{"Album", 2},
+	{"Title", 0},
+	{"Artist", 0},
+	{"Album", 0},
 	{"Year", 0},
-	{"Length", 4},
+	{"Length", 0},
 }
 
 func length(s string) time.Duration {
@@ -64,12 +64,13 @@ func length(s string) time.Duration {
 	return d
 }
 
-func PrintTracks(tt TrackTable) {
+// WriteTracks creates an HTML table for a TrackTable
+func WriteTracks(tt TrackTable, wr io.Writer) {
 	tmpl, err := template.ParseFiles("index.html")
 	if err != nil {
 		panic(err)
 	}
-	err = tmpl.ExecuteTemplate(os.Stdout, "index.html", tt)
+	err = tmpl.ExecuteTemplate(wr, "index.html", tt)
 	if err != nil {
 		panic(err)
 	}

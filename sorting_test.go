@@ -2,14 +2,15 @@ package sorting
 
 import (
 	"fmt"
+	"os"
 	"sort"
 	"testing"
 )
 
-func TestPrintTracks(t *testing.T) {
+func TestWriteTracks(t *testing.T) {
 	var tt TrackTable
 	tt.Tracks = tracks
-	PrintTracks(tt)
+	WriteTracks(tt, os.Stdout)
 	sort.Sort(bySortkey(sortkeys))
 	for _, key := range sortkeys {
 		fmt.Println(key)
@@ -43,5 +44,5 @@ func TestPrintTracks(t *testing.T) {
 		return false
 	}})
 
-	PrintTracks(tt)
+	WriteTracks(tt, os.Stdout)
 }
