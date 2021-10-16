@@ -7,7 +7,9 @@ import (
 )
 
 func TestPrintTracks(t *testing.T) {
-	PrintTracks(tracks)
+	var tt TrackTable
+	tt.Tracks = tracks
+	PrintTracks(tt)
 	sort.Sort(bySortkey(sortkeys))
 	for _, key := range sortkeys {
 		fmt.Println(key)
@@ -41,5 +43,5 @@ func TestPrintTracks(t *testing.T) {
 		return false
 	}})
 
-	PrintTracks(tracks)
+	PrintTracks(tt)
 }
