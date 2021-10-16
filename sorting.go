@@ -75,6 +75,7 @@ func WriteTracks(tt TrackTable, wr io.Writer, tmpl *template.Template) {
 
 // SortTracks sorts the tracks according to the order of the sortkeys
 func SortTracks() {
+	sort.Sort(bySortkey(sortkeys))
 	sort.Sort(customSort{tracks, func(x, y *Track) bool {
 		for _, key := range sortkeys {
 			switch key.name {
